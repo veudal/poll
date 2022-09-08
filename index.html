@@ -1,22 +1,64 @@
-<!doctype html>
-<html class="no-js" lang="">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        
-        <link rel="stylesheet" href="css/styles.css">
-        <script src="js/modernizr-2.8.3.min.js"></script>
-    </head>
-    <body>
-        <p>Hello world! This is HTML5 Boilerplate.</p>
+<!DOCTYPE html>
+<!-- Created By codeithub - www.codeithubcom -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poll UI Design | codeithub</title>
+  <link rel="stylesheet" href="https://www.codeithub.com/poll-ui-design-using-html-css-javascript/style.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header>Poll UI Design</header>
+    <div class="poll-area">
+      <input type="checkbox" name="poll" id="opt-1">
+      <input type="checkbox" name="poll" id="opt-2">
+      <input type="checkbox" name="poll" id="opt-3">
+      <input type="checkbox" name="poll" id="opt-4">
+      <label for="opt-1" class="opt-1">
+        <div class="row">
+          <div class="column">
+            <span class="circle"></span>
+            <span class="text">HTML</span>
+          </div>
+          <span class="percent">30%</span>
+        </div>
+        <div class="progress" style="--w:30;"></div>
+      </label>
+      <label for="opt-2" class="opt-2">
+        <div class="row">
+          <div class="column">
+            <span class="circle"></span>
+            <span class="text">Java</span>
+          </div>
+          <span class="percent">20%</span>
+        </div>
+        <div class="progress" style="--w:20;"></div>
+      </label>
+      <label for="opt-3" class="opt-3">
+        <div class="row">
+          <div class="column">
+            <span class="circle"></span>
+            <span class="text">Python</span>
+          </div>
+          <span class="percent">40%</span>
+        </div>
+        <div class="progress" style="--w:40;"></div>
+      </label>
+      <label for="opt-4" class="opt-4">
+        <div class="row">
+          <div class="column">
+            <span class="circle"></span>
+            <span class="text">jQuery</span>
+          </div>
+          <span class="percent">10%</span>
+        </div>
+        <div class="progress" style="--w:10;"></div>
+      </label>
+    </div>
+  </div>
 
+  <script src="script.js"></script>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/jquery-{{JQUERY_VERSION}}.min.js"><\/script>')</script>
-        <script src="js/script.js"></script>
-    </body>
+</body>
 </html>
