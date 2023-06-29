@@ -1,64 +1,29 @@
 <!DOCTYPE html>
-<!-- Created By codeithub - www.codeithubcom -->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Poll UI Design | codeithub</title>
- <link rel="stylesheet" href="style.css">
+  <title>Poll Website</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrapper">
-    <header>Poll UI Design</header>
-    <div class="poll-area">
-      <input type="checkbox" name="poll" id="opt-1">
-      <input type="checkbox" name="poll" id="opt-2">
-      <input type="checkbox" name="poll" id="opt-3">
-      <input type="checkbox" name="poll" id="opt-4">
-      <label for="opt-1" class="opt-1">
-        <div class="row">
-          <div class="column">
-            <span class="circle"></span>
-            <span class="text">HTML</span>
-          </div>
-          <span class="percent">30%</span>
-        </div>
-        <div class="progress" style="--w:30;"></div>
-      </label>
-      <label for="opt-2" class="opt-2">
-        <div class="row">
-          <div class="column">
-            <span class="circle"></span>
-            <span class="text">Java</span>
-          </div>
-          <span class="percent">20%</span>
-        </div>
-        <div class="progress" style="--w:20;"></div>
-      </label>
-      <label for="opt-3" class="opt-3">
-        <div class="row">
-          <div class="column">
-            <span class="circle"></span>
-            <span class="text">Python</span>
-          </div>
-          <span class="percent">40%</span>
-        </div>
-        <div class="progress" style="--w:40;"></div>
-      </label>
-      <label for="opt-4" class="opt-4">
-        <div class="row">
-          <div class="column">
-            <span class="circle"></span>
-            <span class="text">jQuery</span>
-          </div>
-          <span class="percent">10%</span>
-        </div>
-        <div class="progress" style="--w:10;"></div>
-      </label>
-    </div>
+  <div class="container">
+    <h1>Poll Website</h1>
+    <form>
+      <h2>Question:</h2>
+      <p>What is your favorite programming language?</p>
+      <div class="options">
+        <input type="radio" id="opt-1" name="poll-option">
+        <label for="opt-1">HTML</label>
+        <input type="radio" id="opt-2" name="poll-option">
+        <label for="opt-2">Java</label>
+        <input type="radio" id="opt-3" name="poll-option">
+        <label for="opt-3">Python</label>
+        <input type="radio" id="opt-4" name="poll-option">
+        <label for="opt-4">JavaScript</label>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
   </div>
-
-  <script src="script.js"></script>
-
 </body>
 </html>
