@@ -1,40 +1,39 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 :root {
-  --anim-speed: 2s;
-  --bar-height: 18px;
-
-  --bg: #f5f5f5;
-  --bg-form: #fff;
-  --color-text: black;
-  --bg-bar-color: hsl(0, 0%, 90%);
+    --anim-speed: 2s;
+    --bar-height: 18px;
+    --bg: #f5f5f5;
+    --bg-form: #fff;
+    --color-text: black;
+    --bg-bar-color: hsl(0, 0%, 90%);
 }
 
 .light {
-  --bg: #f5f5f5;
-  --bg-form: #fff;
-  --color-text: black;
-  --bg-bar-color: hsl(0, 0%, 90%);
+    --bg: #f5f5f5;
+    --bg-form: #fff;
+    --color-text: black;
+    --bg-bar-color: hsl(0, 0%, 90%);
 }
 
 .dark {
-  --bg: #1e1f22;
-  --bg-form: #313338;
-  --color-text: white;
-  --bg-bar-color: #313338;
+    --bg: #1e1f22;
+    --bg-form: #313338;
+    --color-text: white;
+    --bg-bar-color: #313338;
 }
 
 
 
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--bg);
-  transition: 500ms;
+    font-family: Arial, sans-serif;
+    background-color: var(--bg);
+    transition: 500ms;
 }
 
 #container {
@@ -44,160 +43,163 @@ body {
 
 
 #pollArea {
-  text-align: center;
+    text-align: center;
 }
 
 h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: var(--color-text);
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text);
 }
 
 form {
-  background-color: var(--bg-form);
-  border-radius: 5px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: var(--color-text);
+    background-color: var(--bg-form);
+    border-radius: 5px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    color: var(--color-text);
 }
 
 h2 {
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
 }
 
 p {
-  font-size: 1rem;
-  margin-bottom: 2rem;
+    font-size: 1rem;
+    margin-bottom: 2rem;
 }
 
 .options {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 
 input[type="radio"] {
-  display: none;
+    display: none;
 }
 
 label {
-  margin: 0 0.5rem;
-  padding: 0.5rem 1rem;
-  background-color: #f0f0f0;
-  border-radius: 5px;
-  cursor: pointer;
+    margin: 0 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--bg);
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 input[type="radio"]:checked + label {
-  background-color: #2196F3;
-  color: var(--color-text);
+    background-color: #0d8bf0;
+    color: white;
 }
 
 label:hover {
-  background-color: #e0e0e0;
+    background-color: #2196F3;
+    color: white;
 }
 
 button {
-  padding: 0.75rem 1rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  color: var(--color-text);
-  background-color: #2196F3;
-  cursor: pointer;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: white;
+    background-color: #2196F3;
+    cursor: pointer;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-button:hover {
-  background-color: #0d8bf0;
-}
+    button:hover {
+        background-color: #0d8bf0;
+    }
 
 
 #progress-bars-container {
-  margin: 100px;
+    margin: 100px;
 }
 
 .bar-container {
-  width: 100%;
-
-  margin-top: 20px;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .option-name, .percent-info {
-  color: var(--color-text);
-  font-weight: bold;
+    color: var(--color-text);
+    font-weight: bold;
 }
 
 .bar {
-  width: 0%;
-  height: 100%;
-  border-radius: calc(var(--bar-height) / 2);
-  animation: stretch var(--anim-speed) ease-in-out;
+    width: 0%;
+    height: 100%;
+    border-radius: calc(var(--bar-height) / 2);
+    animation: stretch var(--anim-speed) ease-in-out;
 }
 
 .bg-bar {
-  width: 100%;
-  height: var(--bar-height);
-  margin-top: 4px;
-  border-radius: calc(var(--bar-height) / 2);
-  background-color: var(--bg-bar-color);
+    width: 100%;
+    height: var(--bar-height);
+    margin-top: 4px;
+    border-radius: calc(var(--bar-height) / 2);
+    background-color: var(--bg-bar-color);
 }
 
 .percent-div {
-  position: absolute;
+    position: absolute;
 }
 
 .percent-info {
-  position: relative;
-  animation: offset var(--anim-speed) ease-in-out;
+    position: relative;
+    animation: offset var(--anim-speed) ease-in-out;
 }
 
 @keyframes stretch {
-  from {
-      width: 0;
-  }
+    from {
+        width: 0;
+    }
 }
 
 @keyframes offset {
-  from {
-      left: 0px;
-  }
+    from {
+        left: 0px;
+    }
 }
 
 .modeToggle-wrapper {
-  position: absolute;
-  right: 20px;
-  top: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
 
 .mode-toggle {
-  width: 40px;
-  height: 40px;
-  background: var(--bg-form);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 40px;
+    height: 40px;
+    background: var(--bg-form);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .icon {
-  display: none;
+    display: none;
 }
 
 .light #sun {
-  display: block;
-  position: relative;
-  left: -4px;
+    display: block;
+    position: relative;
+    left: -4px;
 }
 
 .dark #moon {
-  display: block;
-  position: relative;
-  left: -2px;
+    display: block;
+    position: relative;
+    left: -2px;
 }
 
 .sun-path {
-  fill: black;
+    fill: black;
 }
 
 .moon-path {
-  fill: white;
+    fill: white;
 }

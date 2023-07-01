@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('moon').style.display = 'block';
         }
     });
+
     getPoll();
 });
 
@@ -45,25 +46,22 @@ function createButton() {
     button.id = 'submitButton';
     button.innerText = "Submit";
     button.style.marginTop = "50px";
-    button.hidden = true;
+    button.style.display = "none";
     button.disabled = true;
-
     return button;
 }
 
 function buttonClick() {
     const button = document.getElementById('submitButton');
     button.disabled = true;
-    button.hidden = true;
-
+    button.style.display = "none";
+    options.style.opacity = "0";
+    options.style.transition = "opacity 0.5s ease";
     fetch('https://pollapi.azurewebsites.net/Poll/SubmitAnswer?option=' + selectedId)
         .then(response => response.json())
         .then(data => {
                 showResult(data.answers, data.options);
         });
-
-    options.style.opacity = "0";
-    options.style.transition = "opacity 0.5s ease";
 }
 
 function showResult(result, options) {
@@ -151,31 +149,31 @@ function getPoll() {
             const options = document.getElementById('options');
 
             if (data.duplicate) {
-                button.disabled = true;
-                button.hidden = true;
-
                 showResult(data.answers, data.options);
-                options.style.opacity = "0";
-                options.style.transition = "opacity 0.5s ease";
-            } else {
-                button.hidden = false;
-
-                for (let i = 0; i < data.options.length; i++) {
-                    const radioButton = document.createElement('input');
-                    radioButton.type = 'radio';
-                    radioButton.id = `opt-${i}`;
-                    radioButton.name = 'poll-option';
-
-                    const label = document.createElement('label');
-                    label.textContent = data.options[i];
-                    label.setAttribute('for', `opt-${i}`);
-
-                    options.appendChild(radioButton);
-                    options.appendChild(label);
-                }
+            }
+            else {
+                showOptions(button, data, options);
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
+}
+
+function showOptions(button, data, options) {
+    button.style.display = "flex";
+    for (let i = 0; i < data.options.length; i++) {
+        const radioButton = document.createElement('input');
+        radioButton.type = 'radio';
+        radioButton.id = `opt-${i}`;
+        radioButton.name = 'poll-option';
+
+        const label = document.createElement('label');
+        label.textContent = data.options[i];
+        label.className = 'radio';
+        label.setAttribute('for', `opt-${i}`);
+
+        options.appendChild(radioButton);
+        options.appendChild(label);
+    }
 }
