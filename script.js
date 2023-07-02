@@ -1,5 +1,5 @@
 let selectedId = 0;
-
+let intervalId = 0;
 document.addEventListener('DOMContentLoaded', function () {
     
     const button = createButton();
@@ -22,6 +22,27 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('sun').style.display = 'none';
         document.getElementById('moon').style.display = 'block';
     }
+
+    var loadingStateElement = document.getElementById('QuestionParagraph');
+
+    var loadingStates = [
+        'Loading.',
+        'Loading..',
+        'Loading...'
+    ];
+
+    var currentStateIndex = 0;
+    loadingStateElement.textContent = loadingStates[currentStateIndex];
+
+    function updateLoadingState() {
+        // Increment the state index
+        currentStateIndex = (currentStateIndex + 1) % loadingStates.length;
+
+        // Update the text content of the paragraph
+        loadingStateElement.textContent = loadingStates[currentStateIndex];
+    }
+
+    intervalId = setInterval(updateLoadingState, 250);
 
     modeToggle.addEventListener("click", function () {
         const body = document.body;
@@ -74,6 +95,17 @@ function showResult(result, options) {
         const text = document.createTextNode('You have successfully voted today.');
         paragraph.appendChild(text);
         pollArea.appendChild(paragraph);
+        var form = document.createElement("form");
+        form.style.backgroundColor = "transparent";
+        form.style.marginBottom = "6vh";
+        form.action = "submitPoll.html";
+        form.target = "_self";
+
+        var button = document.createElement("button");
+        button.type = "submit";
+        button.textContent = "Submit a question";
+        form.appendChild(button);
+        document.body.appendChild(form);
 
         function createBar(value, color, option) {
             const percent = value / total;
@@ -141,6 +173,9 @@ function getPoll() {
     fetch('https://pollapi.azurewebsites.net/Poll/GetDailyPoll')
         .then(response => response.json())
         .then(data => {
+
+            clearInterval(intervalId);
+
             const questionParagraph = document.getElementById('QuestionParagraph');
             questionParagraph.style.fontSize = "20px";
             questionParagraph.textContent = data.question;
