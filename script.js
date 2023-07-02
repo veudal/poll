@@ -23,8 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('moon').style.display = 'block';
     }
 
-    var loadingStateElement = document.getElementById('QuestionParagraph');
-
     var loadingStates = [
         'Loading.',
         'Loading..',
@@ -32,14 +30,14 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     var currentStateIndex = 0;
-    loadingStateElement.textContent = loadingStates[currentStateIndex];
+    QuestionParagraph.textContent = loadingStates[currentStateIndex];
 
     function updateLoadingState() {
         // Increment the state index
         currentStateIndex = (currentStateIndex + 1) % loadingStates.length;
 
         // Update the text content of the paragraph
-        loadingStateElement.textContent = loadingStates[currentStateIndex];
+        QuestionParagraph.textContent = loadingStates[currentStateIndex];
     }
 
     intervalId = setInterval(updateLoadingState, 250);
@@ -73,6 +71,7 @@ function createButton() {
 }
 
 function buttonClick() {
+
     const button = document.getElementById('submitButton');
     button.disabled = true;
     button.style.display = "none";
@@ -86,15 +85,33 @@ function buttonClick() {
 }
 
 function showResult(result, options) {
+
+    p1.textContent = 'You have successfully voted today.';
+    var x = setInterval(function () {
+
+        const currentTime = new Date();
+        const nextUTCDay = new Date(currentTime);
+        nextUTCDay.setUTCDate(nextUTCDay.getUTCDate() + 1);
+        nextUTCDay.setUTCHours(0, 0, 0, 0);
+
+        const distance = nextUTCDay - currentTime;
+
+        if (distance <= 1000) {
+
+            window.location.reload();         
+        }
+
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        p2.textContent = "Next poll: " + hours + "h " + minutes + "m " + seconds + "s ";
+
+    }, 1000);
     setTimeout(function () {
         const colors = ['#AC92EB', '#4FC1E8', '#ED5564', '#A0D568', '#FFCE54'];
         const container = document.getElementById('progress-bars-container');
         let total = result.reduce((sum, value) => sum + value, 0);
-        const pollArea = document.getElementById("pollArea");
-        const paragraph = document.createElement('p');
-        const text = document.createTextNode('You have successfully voted today.');
-        paragraph.appendChild(text);
-        pollArea.appendChild(paragraph);
+
         var button = document.createElement("button");
         button.type = "submit";
         button.style.marginBottom = '6vh';
@@ -103,6 +120,9 @@ function showResult(result, options) {
             window.location = 'submit.html';
         });
         document.body.appendChild(button);
+
+
+    
 
         function createBar(value, color, option) {
             const percent = value / total;
@@ -158,6 +178,7 @@ function showResult(result, options) {
             createBar(result[i], colors[i], options[i]);
         }
     }, 700);
+
 }
 
 function handleOptionChange(event) {
@@ -172,10 +193,7 @@ function getPoll() {
         .then(data => {
 
             clearInterval(intervalId);
-
-            const questionParagraph = document.getElementById('QuestionParagraph');
-            questionParagraph.style.fontSize = "20px";
-            questionParagraph.textContent = data.question;
+            QuestionParagraph.textContent = data.question;
 
             const button = document.getElementById('submitButton');
             const options = document.getElementById('options');

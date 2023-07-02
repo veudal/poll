@@ -27,9 +27,6 @@
     --bg-bar-color: #313338;
 }
 
-
-
-
 body {
     font-family: Arial, sans-serif;
     background-color: var(--bg);
@@ -37,8 +34,8 @@ body {
 }
 
 #container {
-    margin: 0 auto;
-    padding: 3em;
+    margin-top: 4vh;
+    padding: 1em;
 }
 
 
@@ -46,25 +43,30 @@ body {
     text-align: center;
     background-color: var(--bg-form);
     border-radius: 5px;
-    padding: 2rem;
+    padding: 3.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     color: var(--color-text);
+    margin-top: 8rem;
+    padding-bottom: 1rem;
+    margin: 5%;
 }
 
 h1 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 2.5rem;
     color: var(--color-text);
-    margin-top: 8vh;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
 }
 
 h2 {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 2.2rem;
+    margin-bottom: 4rem;
+    padding-top: 2rem;
 }
 
 p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 2rem;
 }
 
@@ -80,7 +82,7 @@ input[type="radio"] {
 
 label {
     margin: 0.75rem 1rem;
-    padding: 0.5rem 1rem;
+    padding: 0.9rem 1.8rem;
     background-color: var(--bg);
     border-radius: 5px;
     cursor: pointer;
@@ -109,13 +111,16 @@ button {
     margin-right: auto;
 }
 
-button:hover {
-    background-color: #0d8bf0;
-}
+    button:hover {
+        background-color: #0d8bf0;
+    }
 
 
 #progress-bars-container {
-    margin: 5%;
+    margin-left: 6%;
+    margin-right: 6%;
+    margin-bottom: 4rem;
+    margin-top: 8vh;
 }
 
 .bar-container {
@@ -222,9 +227,9 @@ button:hover {
     background: #313338;
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #555;
-}
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
 
 .wrap {
     position: fixed;
