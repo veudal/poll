@@ -95,17 +95,14 @@ function showResult(result, options) {
         const text = document.createTextNode('You have successfully voted today.');
         paragraph.appendChild(text);
         pollArea.appendChild(paragraph);
-        var form = document.createElement("form");
-        form.style.backgroundColor = "transparent";
-        form.style.marginBottom = "6vh";
-        form.action = "submitPoll.html";
-        form.target = "_self";
-
         var button = document.createElement("button");
         button.type = "submit";
-        button.textContent = "Submit a question";
-        form.appendChild(button);
-        document.body.appendChild(form);
+        button.style.marginBottom = '6vh';
+        button.textContent = "Submit a new question";
+        button.addEventListener('click', function () {
+            window.location = 'submit.html';
+        });
+        document.body.appendChild(button);
 
         function createBar(value, color, option) {
             const percent = value / total;
