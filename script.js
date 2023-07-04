@@ -1,11 +1,11 @@
 let selectedId = 0;
 let intervalId = 0;
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     const button = createButton();
-    const div = document.getElementById("mainDiv"); 
+    const div = document.getElementById("mainDiv");
     const mode = localStorage.getItem('mode');
-    if (mode !== null) { 
+    if (mode !== null) {
         document.body.className = mode;
     }
     div.appendChild(button);
@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     button.addEventListener('click', buttonClick);
     options.addEventListener('change', handleOptionChange);
 
-    const modeToggle = document.getElementById("modeToggle");
 
     if (document.body.classList.contains('light')) {
         document.getElementById('sun').style.display = 'block';
@@ -42,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     intervalId = setInterval(updateLoadingState, 250);
 
+    const modeToggle = document.getElementById("modeToggle");
     modeToggle.addEventListener("click", function () {
         const body = document.body;
         body.classList.toggle("dark");
@@ -77,6 +77,7 @@ function buttonClick() {
     button.style.display = "none";
     options.style.opacity = "0";
     options.style.transition = "opacity 0.5s ease";
+    pollArea.removeChild(options);
     fetch('https://pollapi.azurewebsites.net/Poll/SubmitAnswer?option=' + selectedId)
         .then(response => response.json())
         .then(data => {
@@ -85,28 +86,9 @@ function buttonClick() {
 }
 
 function showResult(result, options) {
-
     p1.textContent = 'You have successfully voted today.';
-    var x = setInterval(function () {
-
-        const currentTime = new Date();
-        const nextUTCDay = new Date(currentTime);
-        nextUTCDay.setUTCDate(nextUTCDay.getUTCDate() + 1);
-        nextUTCDay.setUTCHours(0, 0, 0, 0);
-
-        const distance = nextUTCDay - currentTime;
-
-        if (distance <= 1000) {
-
-            window.location.reload();         
-        }
-
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        p2.textContent = "Next poll: " + hours + "h " + minutes + "m " + seconds + "s ";
-
-    }, 1000);
+    remainingTime();
+    setInterval(remainingTime, 1000);
     setTimeout(function () {
         const colors = ['#AC92EB', '#4FC1E8', '#ED5564', '#A0D568', '#FFCE54'];
         const container = document.getElementById('progress-bars-container');
@@ -121,9 +103,6 @@ function showResult(result, options) {
         });
         document.body.appendChild(button);
 
-
-    
-
         function createBar(value, color, option) {
             const percent = value / total;
             const spacing = 10;
@@ -133,20 +112,17 @@ function showResult(result, options) {
             const name = document.createElement('span')
             name.className = 'option-name'
             name.textContent = option;
-            div.appendChild(name)
+            name.style.color = color;
+            name.style.fontWeight = '800'
 
             const bg_bar = document.createElement('div')
             bg_bar.className = 'bg-bar'
-            div.appendChild(bg_bar);
+            bg_bar.style.marginBottom = '1rem';
 
             const bar = document.createElement('div')
             bar.className = 'bar'
             bar.style.width = percent * 100 + '%'
             bar.style.backgroundColor = color
-            bg_bar.appendChild(bar);
-
-            container.appendChild(div);
-
 
             const percentDiv = document.createElement('div')
             percentDiv.className = 'percent-div'
@@ -158,28 +134,55 @@ function showResult(result, options) {
             function setValues() {
                 const rect = name.getBoundingClientRect()
                 const startX = rect.right + spacing * 2
-                const startY = rect.top;
                 const barLength = percent * div.getBoundingClientRect().width;
                 const shiftRight = 4.25 * spacing * percent * percent
                 const endX = Math.max(startX, bar.getBoundingClientRect().left + barLength - shiftRight)
 
                 percentDiv.style.left = startX + 'px';
-                percentDiv.style.top = startY + 'px';
                 percentInfo.style.left = (endX - startX) + 'px';
+
             }
+            div.appendChild(bg_bar);
+            div.appendChild(name)
+            bg_bar.appendChild(bar);
+            container.appendChild(div);
 
             setValues()
+
             percentDiv.appendChild(percentInfo)
             div.appendChild(percentDiv)
+
             window.addEventListener('resize', setValues)
         }
 
         for (let i = 0; i < result.length; i++) {
             createBar(result[i], colors[i], options[i]);
         }
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     }, 700);
+}
+
+function remainingTime() {
+
+    const currentTime = new Date();
+    const nextUTCDay = new Date(currentTime);
+    nextUTCDay.setUTCDate(nextUTCDay.getUTCDate() + 1);
+    nextUTCDay.setUTCHours(0, 0, 0, 0);
+
+    const distance = nextUTCDay - currentTime;
+
+    if (distance <= 1000) {
+
+        window.location.reload();
+    }
+
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    p2.textContent = "Next poll: " + hours + "h " + minutes + "m " + seconds + "s ";
 
 }
+
 
 function handleOptionChange(event) {
     selectedId = event.target.id.substring(4);
@@ -195,14 +198,12 @@ function getPoll() {
             clearInterval(intervalId);
             QuestionParagraph.textContent = data.question;
 
-            const button = document.getElementById('submitButton');
-            const options = document.getElementById('options');
 
             if (data.duplicate) {
                 showResult(data.answers, data.options);
             }
             else {
-                showOptions(button, data, options);
+                showOptions(data);
             }
         })
         .catch(error => {
@@ -210,7 +211,10 @@ function getPoll() {
         });
 }
 
-function showOptions(button, data, options) {
+function showOptions(data) {
+
+    const button = document.getElementById('submitButton');
+
     button.style.display = "flex";
     for (let i = 0; i < data.options.length; i++) {
         const radioButton = document.createElement('input');

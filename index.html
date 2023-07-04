@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poll Website</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="img/favicon-512x512.png" type="image/png" sizes="512x512">
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 </head>
 <body class="dark">
     <div id="container">
@@ -31,11 +34,11 @@
         </div>
         <div id="mainDiv">
             <form id="pollArea">
-                <h2 >Question:</h2>
-                <p id="QuestionParagraph" style="font-size: 1.5rem; margin-top: 4vh"/>
+                <h2>Question:</h2>
+                <p id="QuestionParagraph" style="font-size: 1.5rem; margin-top: 4vh" />
                 <p id="p1" style="color: lightseagreen; margin-top: 6vh"></p>
-                <p id="p2" style="display: inline-flex; font-size: 0.9rem">‎</p>
-                <div id="options" class="options"/>
+                <p id="p2" style="display: inline-flex; font-size: 0.9rem"></p>
+                <div id="options" class="options" />
             </form>
         </div>
         <div id="progress-bars-container"></div>
