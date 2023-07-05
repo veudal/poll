@@ -2,12 +2,13 @@ let selectedId = 0;
 let intervalId = 0;
 document.addEventListener('DOMContentLoaded', function () {
 
+    const theme = localStorage.getItem('theme');
+    if (theme !== null) {
+        document.body.className = theme;
+    }
+
     const button = createButton();
     const div = document.getElementById("mainDiv");
-    const mode = localStorage.getItem('mode');
-    if (mode !== null) {
-        document.body.className = mode;
-    }
     div.appendChild(button);
 
     button.addEventListener('click', buttonClick);
@@ -40,12 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     intervalId = setInterval(updateLoadingState, 250);
 
-    const modeToggle = document.getElementById("modeToggle");
-    modeToggle.addEventListener("click", function () {
+    const themeToggle = document.getElementById("themeToggle");
+    themeToggle.addEventListener("click", function () {
         const body = document.body;
         body.classList.toggle("dark");
         body.classList.toggle("light");
-        localStorage.setItem('mode', body.classList[0]);
+        localStorage.setItem('theme', body.classList[0]);
 
         if (document.body.classList.contains('light')) {
             document.getElementById('sun').style.display = 'block';
@@ -195,7 +196,7 @@ function getPoll() {
         .then(data => {
 
             clearInterval(intervalId);
-            const diffInMilliseconds = new Date() - new Date('07-01-2023');
+            const diffInMilliseconds = new Date() - new Date(2023, 6, 1);
             const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
             question.textContent = 'Question #' + diffInDays;
             questionParagraph.textContent = data.question;
