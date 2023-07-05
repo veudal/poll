@@ -29,14 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
     ];
 
     var currentStateIndex = 0;
-    QuestionParagraph.textContent = loadingStates[currentStateIndex];
+    questionParagraph.textContent = loadingStates[currentStateIndex];
 
     function updateLoadingState() {
         // Increment the state index
         currentStateIndex = (currentStateIndex + 1) % loadingStates.length;
-
         // Update the text content of the paragraph
-        QuestionParagraph.textContent = loadingStates[currentStateIndex];
+        questionParagraph.textContent = loadingStates[currentStateIndex];
     }
 
     intervalId = setInterval(updateLoadingState, 250);
@@ -196,7 +195,10 @@ function getPoll() {
         .then(data => {
 
             clearInterval(intervalId);
-            QuestionParagraph.textContent = data.question;
+            const diffInMilliseconds = new Date() - new Date('07-01-2023');
+            const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
+            question.textContent = 'Question #' + diffInDays;
+            questionParagraph.textContent = data.question;
 
 
             if (data.duplicate) {
