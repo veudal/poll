@@ -5,12 +5,15 @@
 }
 
 :root {
-    --anim-speed: 2s;
+    --anim-speed: 2000ms;
     --bar-height: 18px;
     --bg: #f5f5f5;
     --bg-form: #fff;
     --color-text: black;
     --bg-bar-color: hsl(0, 0%, 90%);
+
+    --bar-margin-top: 5px;
+    --bar-title-margin-right: 12px;
 }
 
 .light {
@@ -20,7 +23,7 @@
     --bg-bar-color: hsl(0, 0%, 90%);
 }
 
-.dark {
+.dark { 
     --bg: #1e1f22;
     --bg-form: #313338;
     --color-text: white;
@@ -86,7 +89,7 @@ label {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.2rem;
-    transition: 500ms;
+    transition: 300ms;
 }
 
 input[type="radio"]:checked + label {
@@ -125,38 +128,49 @@ button:hover {
 }
 
 .bar-container {
-    margin-top: 3vh;
+    margin-top: 50px;
 }
 
-.option-name, .percent-info {
+.text-container {
+    display: flex;
+    flex-direction: row;
     color: var(--color-text);
+}
+
+.bar-title {
+    margin-right: var(--bar-title-margin-right);
     font-weight: bold;
 }
 
-.bar {
-    width: 0%;
+.percent-holder {
+    flex-grow: 1;
+}
+
+.percent {
+    position: relative;
+    left: 0;
+    animation: offset var(--anim-speed) ease-in-out;
+    font-weight: bold;
+}
+
+.bar-fill {
+    width: 100%;
+    height: var(--bar-height);
+    margin-top: var(--bar-margin-top);
+}
+
+.bar-bg {
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-bar-color);
+    border-radius: calc(var(--bar-height) / 2);
+}
+
+.bar-color {
+    width: 0;
     height: 100%;
     border-radius: calc(var(--bar-height) / 2);
     animation: stretch var(--anim-speed) ease-in-out;
-}
-
-.bg-bar {
-    width: 100%;
-    height: var(--bar-height);
-    margin-top: 3rem;
-    border-radius: calc(var(--bar-height) / 2);
-    background-color: var(--bg-bar-color);
-}
-
-.percent-div {
-    position: absolute;
-}
-
-.percent-info {
-    bottom: 1.20rem;
-    position: relative;
-    animation: offset var(--anim-speed) ease-in-out;
-    transition: 400ms;
 }
 
 @keyframes stretch {

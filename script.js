@@ -81,7 +81,7 @@ function buttonClick() {
     fetch('https://pollapi.azurewebsites.net/Poll/SubmitAnswer?option=' + selectedId)
         .then(response => response.json())
         .then(data => {
-                showResult(data.answers, data.options);
+            showResult(data.answers, data.options);
         });
 }
 
@@ -104,55 +104,64 @@ function showResult(result, options) {
         document.body.appendChild(button);
 
         function createBar(value, color, option) {
-            const percent = value / total;
-            const spacing = 10;
-            const div = document.createElement('div')
-            div.className = 'bar-container'
+            const p = value / total;
+            const barContainer = document.createElement('div')
+            barContainer.className = 'bar-container'
 
-            const name = document.createElement('span')
-            name.className = 'option-name'
-            name.textContent = option;
-            name.style.color = color;
-            name.style.fontWeight = '800'
+            const textContainer = document.createElement('div')
+            textContainer.className = 'text-container'
+            barContainer.appendChild(textContainer)
 
-            const bg_bar = document.createElement('div')
-            bg_bar.className = 'bg-bar'
-            bg_bar.style.marginBottom = '1rem';
+            const barTitle = document.createElement('span')
+            barTitle.className = 'bar-title'
+            barTitle.textContent = option;
+            barTitle.style.color = color;
+            textContainer.appendChild(barTitle)
 
-            const bar = document.createElement('div')
-            bar.className = 'bar'
-            bar.style.width = percent * 100 + '%'
-            bar.style.backgroundColor = color
+            const percentHolder = document.createElement('div')
+            percentHolder.className = 'percent-holder'
+            textContainer.appendChild(percentHolder)
 
-            const percentDiv = document.createElement('div')
-            percentDiv.className = 'percent-div'
+            const percent = document.createElement('span')
+            percent.className = 'percent'
+            percent.textContent = Math.round(p * 100) + '%'
+            percent.style.zIndex = 10
+            percentHolder.appendChild(percent)
 
-            const percentInfo = document.createElement('span')
-            percentInfo.className = 'percent-info'
-            percentInfo.textContent = Math.round(percent * 100) + '%'
+            const percent_invisible = document.createElement('span')
+            percent_invisible.className = percent.className
+            percent_invisible.textContent = percent.textContent
+            percent_invisible.style.opacity = 0
+            percent_invisible.style.pointerEvents = 'none';
+            textContainer.appendChild(percent_invisible)
 
-            function setValues() {
-                const rect = name.getBoundingClientRect()
-                const startX = rect.right + spacing * 2
-                const barLength = percent * div.getBoundingClientRect().width;
-                const shiftRight = 4.25 * spacing * percent * percent
-                const endX = Math.max(startX, bar.getBoundingClientRect().left + barLength - shiftRight)
+            const barFill = document.createElement('div')
+            barFill.className = 'bar-fill'
+            barContainer.appendChild(barFill)
 
-                percentDiv.style.left = startX + 'px';
-                percentInfo.style.left = (endX - startX) + 'px';
+            const barBg = document.createElement('div')
+            barBg.className = 'bar-bg'
+            barFill.appendChild(barBg)
 
+            const barColor = document.createElement('div')
+            barColor.className = 'bar-color'
+            barColor.style.width = p * 100 + '%'
+            barColor.style.backgroundColor = color
+            barBg.appendChild(barColor)
+
+            container.appendChild(barContainer)
+
+            function offsetPercent() {
+                const bw = barFill.getBoundingClientRect().width * p
+                const bt = barTitle.getBoundingClientRect().width + 12
+                if (bw > bt) {
+                    const pw = percent.getBoundingClientRect().width
+                    percent.style.left = `calc(clamp(0%, ${bw - bt - pw / 2}px, 100%))`
+                }
             }
-            div.appendChild(bg_bar);
-            div.appendChild(name)
-            bg_bar.appendChild(bar);
-            container.appendChild(div);
 
-            setValues()
-
-            percentDiv.appendChild(percentInfo)
-            div.appendChild(percentDiv)
-
-            window.addEventListener('resize', setValues)
+            offsetPercent()
+            window.addEventListener("resize", offsetPercent);
         }
 
         for (let i = 0; i < result.length; i++) {
@@ -196,7 +205,7 @@ function getPoll() {
         .then(data => {
 
             clearInterval(intervalId);
-            const diffInMilliseconds = new Date() - new Date(2023, 6, 1);
+            const diffInMilliseconds = new Date().setHours(0, 0, 0, 0) - new Date(2023, 6, 1);
             const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
             question.textContent = 'Question #' + diffInDays;
             questionParagraph.textContent = data.question;
