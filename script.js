@@ -1,5 +1,7 @@
 let selectedId = 0;
 let intervalId = 0;
+let offset = 0;
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const theme = localStorage.getItem('theme');
@@ -90,7 +92,7 @@ function showResult(result, options) {
     remainingTime();
     setInterval(remainingTime, 1000);
     setTimeout(function () {
-        const colors = ['#AC92EB', '#4FC1E8', '#ED5564', '#A0D568', '#FFCE54'];
+        const colors = ['#AC92EB', '#4FC1E8', '#ED5564', '#A0D568', '#FFCE54', "#FE20FE"];
         const container = document.getElementById('progress-bars-container');
         let total = result.reduce((sum, value) => sum + value, 0);
 
