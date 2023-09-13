@@ -1,6 +1,5 @@
 let selectedId = 0;
 let intervalId = 0;
-let offset = 0;
 
 document.addEventListener('DOMContentLoaded', function () {
 
