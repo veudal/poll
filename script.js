@@ -215,7 +215,7 @@ function getPoll() {
             questionParagraph.textContent = data.question;
 
 
-            if (data.duplicate || hasVoted()) {
+            if (data.duplicate) {
                 showResult(data.answers, data.options);
             }
             else {
