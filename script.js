@@ -1,5 +1,6 @@
 let selectedId = 0;
 let intervalId = 0;
+let pollData = null; 
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -79,11 +80,11 @@ function buttonClick() {
     options.style.opacity = "0";
     options.style.transition = "opacity 0.5s ease";
     pollArea.removeChild(options);
-    fetch('https://pollapi.azurewebsites.net/Poll/SubmitAnswer?option=' + selectedId)
-        .then(response => response.json())
-        .then(data => {
-            showResult(data.answers, data.options);
-        });
+    if (!hasVoted()) {
+        fetch('https://pollapi.azurewebsites.net/Poll/SubmitAnswer?option=' + selectedId)
+        localStorage.setItem("lastVote", new Date());
+    }
+    showResult(pollData.answers, pollData.options);
 }
 
 function showResult(result, options) {
@@ -205,6 +206,7 @@ function getPoll() {
         .then(response => response.json())
         .then(data => {
 
+            pollData = data;
             clearInterval(intervalId);
             const diffInMilliseconds = new Date().setHours(0, 0, 0, 0) - new Date(2023, 6, 1);
             const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24)) + 1;
@@ -212,7 +214,7 @@ function getPoll() {
             questionParagraph.textContent = data.question;
 
 
-            if (data.duplicate) {
+            if (data.duplicate || hasVoted()) {
                 showResult(data.answers, data.options);
             }
             else {
@@ -222,6 +224,22 @@ function getPoll() {
         .catch(error => {
             console.error('Error:', error);
         });
+}
+
+function hasVoted() {
+
+    const date = localStorage.getItem("lastVote");
+    console.log(date)
+    if (areDatesOnSameDay(new Date(date), new Date())) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+function areDatesOnSameDay(date1, date2) {
+    return date1.getUTCFullYear() === date2.getUTCFullYear() &&date1.getUTCMonth() === date2.getUTCMonth() && date1.getUTCDate() === date2.getUTCDate();
 }
 
 function showOptions(data) {
