@@ -84,6 +84,7 @@ function buttonClick() {
         fetch('https://pollapi.azurewebsites.net/Poll/SubmitAnswer?option=' + selectedId)
         localStorage.setItem("lastVote", new Date());
     }
+    pollData.answers[selectedId]++;
     showResult(pollData.answers, pollData.options);
 }
 
