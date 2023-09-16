@@ -1,6 +1,6 @@
 let selectedId = 0;
 let intervalId = 0;
-let pollData = null; 
+let pollData = null;
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -96,7 +96,6 @@ function showResult(result, options) {
         const colors = ['#AC92EB', '#4FC1E8', '#ED5564', '#A0D568', '#FFCE54', "#FE20FE"];
         const container = document.getElementById('progress-bars-container');
         let total = result.reduce((sum, value) => sum + value, 0);
-
         var button = document.createElement("button");
         button.type = "submit";
         button.style.marginBottom = '6vh';
@@ -204,9 +203,14 @@ function handleOptionChange(event) {
 
 function getPoll() {
     fetch('https://pollapi.azurewebsites.net/Poll/GetDailyPoll')
-        .then(response => response.json())
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return response.json();
+            } else {
+                throw new Error("Bad response status code")
+            }
+        })
         .then(data => {
-
             pollData = data;
             clearInterval(intervalId);
             const diffInMilliseconds = new Date().setHours(0, 0, 0, 0) - new Date(2023, 6, 1);
@@ -214,16 +218,17 @@ function getPoll() {
             question.textContent = 'Question #' + diffInDays;
             questionParagraph.textContent = data.question;
 
-
             if (data.duplicate) {
-                showResult(data.answers, data.options);
-            }
-            else {
-                showOptions(data);
+                showResult(pollData.answers, pollData.options);
+            } else {
+                showOptions(pollData);
             }
         })
         .catch(error => {
             console.error('Error:', error);
+            setTimeout(function () {
+                getPoll();
+            }, 5000);
         });
 }
 
@@ -240,7 +245,7 @@ function hasVoted() {
 }
 
 function areDatesOnSameDay(date1, date2) {
-    return date1.getUTCFullYear() === date2.getUTCFullYear() &&date1.getUTCMonth() === date2.getUTCMonth() && date1.getUTCDate() === date2.getUTCDate();
+    return date1.getUTCFullYear() === date2.getUTCFullYear() && date1.getUTCMonth() === date2.getUTCMonth() && date1.getUTCDate() === date2.getUTCDate();
 }
 
 function showOptions(data) {
