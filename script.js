@@ -89,13 +89,13 @@ function buttonClick() {
 }
 
 function showResult(result, options) {
+    let total = result.reduce((sum, value) => sum + value, 0);
     p1.textContent = 'You have successfully voted today.';
     remainingTime();
     setInterval(remainingTime, 1000);
     setTimeout(function () {
         const colors = ['#AC92EB', '#4FC1E8', '#ED5564', '#A0D568', '#FFCE54', "#FE20FE"];
         const container = document.getElementById('progress-bars-container');
-        let total = result.reduce((sum, value) => sum + value, 0);
         var button = document.createElement("button");
         button.type = "submit";
         button.style.marginBottom = '6vh';
@@ -163,12 +163,18 @@ function showResult(result, options) {
             }
 
             offsetPercent()
-            window.addEventListener("resize", offsetPercent);
+            window.addEventListener("resize", offsetPercent)
         }
 
         for (let i = 0; i < result.length; i++) {
-            createBar(result[i], colors[i], options[i]);
+            createBar(result[i], colors[i], options[i])
         }
+
+        const div = document.getElementById("mainDiv")
+        const p = document.createElement('p')
+        p.style.textAlign = 'center'
+        p.textContent = "Votes: " + total
+        div.appendChild(p)
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
     }, 700);
 }
