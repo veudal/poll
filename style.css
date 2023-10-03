@@ -70,7 +70,7 @@ h2 {
 p {
     font-size: 1.2rem;
     margin-bottom: 2rem;
-    color: white;
+    color: var(--color-text);
 }
 
 .options {
